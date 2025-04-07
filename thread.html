@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pineapple War Thread</title>
+    <link rel="stylesheet" href="threads.css" />
+  </head>
+  <body>
+    <!-- Top Banner -->
+    <header class="top-banner">
+      <h1 class="site-title">ThreadRealm</h1>
+      <button class="sign-out">Sign Out</button>
+    </header>
+
+    <!-- Page Layout -->
+    <div class="main-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <nav>
+          <a href="#">New Posts</a>
+          <a href="#">Trending</a>
+          <a href="#">Forums</a>
+          <a href="#">Watched</a>
+        </nav>
+      </aside>
+
+      <!-- Main Thread Area -->
+      <main class="main-content">
+        <!-- Sticky Search Bar -->
+        <div class="search-bar">
+          <input
+            type="text"
+            placeholder="Search in thread..."
+            id="search-bar"
+          />
+        </div>
+
+        <!-- Thread Post -->
+        <div class="thread">
+          <div class="thread-header">
+            <h2>Is pineapple on pizza a war crime?</h2>
+            <div class="meta">
+              <span>by @LordPizzaSlayer</span> • 2 hours ago • 👁️ 432 views • 💬
+              76 comments • ❤️ 121 reacts
+            </div>
+          </div>
+          <div class="thread-body">
+            <p>Let’s settle this. Pineapple on pizza: disgusting or divine?</p>
+          </div>
+        </div>
+
+        <!-- Comment Section -->
+        <div class="comments">
+          <h3>Comments</h3>
+
+          <div class="comment-block">
+            <img
+              class="comment-pfp"
+              src="https://i.pravatar.cc/48?img=12"
+              alt="user pfp"
+            />
+            <div class="comment-main">
+              <div class="comment-user">PineapplePapi</div>
+              <div class="comment-text">
+                Honestly, if you don’t like pineapple on pizza, you have no
+                taste buds.
+              </div>
+              <div class="comment-actions">
+                <div class="react-container">
+                  <button class="react-btn">❤️ React</button>
+                  <div class="react-emojis">
+                    <span>😂</span>
+                    <span>😡</span>
+                    <span>😢</span>
+                    <span>❤️</span>
+                    <span>👍</span>
+                  </div>
+                </div>
+                <span class="react-count">12</span>
+                <button class="reply-btn">💬 Reply</button>
+              </div>
+
+              <div class="reply-box">
+                <textarea placeholder="Reply to PineapplePapi..."></textarea>
+                <button class="send-reply">Send</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="comment-block">
+            <img
+              class="comment-pfp"
+              src="https://i.pravatar.cc/48?img=5"
+              alt="user pfp"
+            />
+            <div class="comment-main">
+              <div class="comment-user">NoFruitZone</div>
+              <div class="comment-text">
+                This post is criminal. Sweet stuff on savory? Get outta here 💀
+              </div>
+              <div class="comment-actions">
+                <div class="react-container">
+                  <button class="react-btn">❤️ React</button>
+                  <div class="react-emojis">
+                    <span>😂</span>
+                    <span>😡</span>
+                    <span>😢</span>
+                    <span>❤️</span>
+                    <span>👍</span>
+                  </div>
+                </div>
+                <span class="react-count">12</span>
+                <button class="reply-btn">💬 Reply</button>
+              </div>
+
+              <div class="reply-box">
+                <textarea placeholder="Reply to NoFruitZone..."></textarea>
+                <button class="send-reply">Send</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADD COMMENT SECTION -->
+        <div class="commentor">
+          <label for="rich-editor">Add your comment:</label>
+
+          <!-- Toolbar -->
+          <div class="toolbar">
+            <button onclick="format('bold')"><b>B</b></button>
+            <button onclick="format('italic')"><i>I</i></button>
+            <button onclick="format('underline')"><u>U</u></button>
+            <!-- Color Picker -->
+            <input
+              type="color"
+              id="color-picker"
+              title="Pick Font Color"
+              onchange="changeColor(this.value)"
+            />
+            <!-- Font Family Dropdown -->
+            <select id="font-selector" onchange="changeFont(this.value)">
+              <option value="Arial">Arial</option>
+              <option value="Georgia">Georgia</option>
+              <option value="Times New Roman">Times New Roman</option>
+              <option value="Verdana">Verdana</option>
+              <option value="Segoe UI">Segoe UI</option>
+            </select>
+            <button onclick="insertLink()">🔗 Link</button>
+            <button onclick="insertImage()">🖼️ Image</button>
+            <button onclick="attachFile()">📎 Attach File</button>
+          </div>
+
+          <!-- Editable content -->
+          <div id="rich-editor" contenteditable="true"></div>
+
+          <button id="post-comment">Post</button>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      // Function to handle search
+      document
+        .getElementById("search-bar")
+        .addEventListener("input", function () {
+          const query = this.value.toLowerCase().trim().replace(/\s+/g, ""); // Remove all spaces in the search query
+
+          // Get all comment blocks
+          const commentBlocks = document.querySelectorAll(".comment-block");
+
+          // Loop through each comment block and check if it matches the query
+          commentBlocks.forEach((commentBlock) => {
+            const commentText = commentBlock
+              .querySelector(".comment-text")
+              .textContent.toLowerCase()
+              .replace(/\s+/g, ""); // Remove spaces in comment text
+            const commentUser = commentBlock
+              .querySelector(".comment-user")
+              .textContent.toLowerCase()
+              .replace(/\s+/g, ""); // Remove spaces in username
+
+            // If the query matches either a word in the comment text or the username (ignoring spaces)
+            if (commentText.includes(query) || commentUser.includes(query)) {
+              commentBlock.style.display = "block"; // Show the comment
+            } else {
+              commentBlock.style.display = "none"; // Hide the comment
+            }
+          });
+        });
+
+      function format(command, value = null) {
+        document.execCommand(command, false, value);
+      }
+
+      // Handle font color change
+      function changeColor(color) {
+        document.execCommand("foreColor", false, color);
+      }
+
+      // Handle font change
+      function changeFont(font) {
+        document.execCommand("fontName", false, font);
+      }
+
+      function insertLink() {
+        const url = prompt("Enter the URL:");
+        if (url) {
+          document.execCommand("createLink", false, url);
+        }
+      }
+
+      function insertImage() {
+        const fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.accept = "image/*";
+        fileInput.style.display = "none";
+
+        fileInput.addEventListener("change", () => {
+          const file = fileInput.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              const base64Image = e.target.result;
+              const img = document.createElement("img");
+              img.src = base64Image;
+              img.style.maxWidth = "100%";
+              document.getElementById("rich-editor").appendChild(img);
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+
+        document.body.appendChild(fileInput);
+        fileInput.click();
+      }
+
+      // Attach file (other than image)
+      function attachFile() {
+        const fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.style.display = "none";
+
+        fileInput.addEventListener("change", () => {
+          const file = fileInput.files[0];
+          if (file) {
+            const fileLink = document.createElement("a");
+            fileLink.href = URL.createObjectURL(file);
+            fileLink.download = file.name;
+            fileLink.textContent = `Attached File: ${file.name}`;
+            fileLink.style.display = "block";
+            fileLink.target = "_blank";
+
+            document.getElementById("rich-editor").appendChild(fileLink);
+          }
+        });
+
+        document.body.appendChild(fileInput);
+        fileInput.click();
+      }
+
+      // Handle comment submission
+      document.getElementById("post-comment").addEventListener("click", () => {
+        const editorContent = document.getElementById("rich-editor").innerHTML;
+
+        if (!editorContent.trim()) return;
+
+        const newComment = document.createElement("div");
+        newComment.classList.add("comment-block");
+
+        newComment.innerHTML = `
+    <img class="comment-pfp" src="https://i.pravatar.cc/48?img=6" alt="user" />
+    <div class="comment-main">
+      <div class="comment-user">You</div>
+      <div class="comment-text">${editorContent}</div>
+      <div class="comment-actions">
+        <div class="react-container">
+          <button class="react-btn">❤️ React</button>
+          <div class="react-emojis">
+            <span>😂</span>
+            <span>😡</span>
+            <span>😢</span>
+            <span>❤️</span>
+            <span>👍</span>
+          </div>
+        </div>
+        <span class="react-count">0</span>
+        <button class="reply-btn">💬 Reply</button>
+        <button class="delete-btn"> Delete</button>
+      </div>
+      <div class="reply-box hidden">
+        <textarea placeholder="Reply to You..."></textarea>
+        <button class="send-reply">Send</button>
+      </div>
+    </div>
+  `;
+
+        document.querySelector(".comments").appendChild(newComment);
+        document.getElementById("rich-editor").innerHTML = "";
+
+        // Re-bind reply buttons for new comments
+        bindReplyButtons();
+        // Re-bind delete buttons for new comments
+        bindDeleteButtons();
+      });
+
+      // Function to bind reply buttons
+      function bindReplyButtons() {
+        const replyButtons = document.querySelectorAll(".reply-btn");
+
+        replyButtons.forEach((button) => {
+          button.addEventListener("click", (e) => {
+            const commentMain = e.target.closest(".comment-main");
+            const replyBox = commentMain.querySelector(".reply-box");
+            const replyTextarea = replyBox.querySelector("textarea");
+
+            // Toggle visibility of the reply box
+            replyBox.classList.toggle("hidden");
+
+            if (!replyBox.classList.contains("hidden")) {
+              const commentUser =
+                commentMain.querySelector(".comment-user").textContent;
+              replyTextarea.placeholder = `Reply to ${commentUser}...`;
+            }
+          });
+        });
+      }
+
+      // Function to bind delete buttons
+      function bindDeleteButtons() {
+        const deleteButtons = document.querySelectorAll(".delete-btn");
+
+        deleteButtons.forEach((button) => {
+          button.addEventListener("click", (e) => {
+            const commentBlock = e.target.closest(".comment-block");
+            if (commentBlock) {
+              commentBlock.remove();
+            }
+          });
+        });
+      }
+
+      // Function to handle reactions
+      document.querySelectorAll(".react-btn").forEach((button) => {
+        button.addEventListener("click", (e) => {
+          const emojiContainer = e.target
+            .closest(".react-container")
+            .querySelector(".react-emojis");
+          emojiContainer.style.display =
+            emojiContainer.style.display === "none" ? "flex" : "none";
+
+          const reactCountElement = e.target
+            .closest(".comment-actions")
+            .querySelector(".react-count");
+          let currentCount = parseInt(reactCountElement.innerText, 10);
+          reactCountElement.innerText = currentCount + 1;
+        });
+      });
+
+      // Function to handle emoji reactions
+      document.querySelectorAll(".react-emojis span").forEach((emoji) => {
+        emoji.addEventListener("click", (e) => {
+          const emojiText = e.target.textContent;
+          const reactionButton = e.target
+            .closest(".react-container")
+            .querySelector(".react-btn");
+          reactionButton.textContent = emojiText;
+
+          e.target.closest(".react-emojis").style.display = "none";
+        });
+      });
+
+      // Handle reply submission
+      document.querySelectorAll(".send-reply").forEach((button) => {
+        button.addEventListener("click", (e) => {
+          const replyBox = e.target.closest(".reply-box");
+          const replyText = replyBox.querySelector("textarea").value;
+
+          if (!replyText.trim()) return;
+
+          const reply = document.createElement("div");
+          reply.classList.add("comment-block");
+          reply.innerHTML = `
+      <img class="comment-pfp" src="https://i.pravatar.cc/48?img=7" alt="user" />
+      <div class="comment-main">
+        <div class="comment-user">You (Reply)</div>
+        <div class="comment-text">${replyText}</div>
+        <div class="comment-actions">
+          <div class="react-container">
+            <button class="react-btn">❤️ React</button>
+            <div class="react-emojis">
+              <span>😂</span>
+              <span>😡</span>
+              <span>😢</span>
+              <span>❤️</span>
+              <span>👍</span>
+            </div>
+          </div>
+          <span class="react-count">0</span>
+          <button class="reply-btn">💬 Reply</button>
+          <button class="delete-btn"> Delete</button>
+        </div>
+        <div class="reply-box hidden">
+          <textarea placeholder="Reply to You..."></textarea>
+          <button class="send-reply">Send</button>
+        </div>
+      </div>
+    `;
+
+          replyBox.closest(".comment-main").appendChild(reply);
+          replyBox.querySelector("textarea").value = "";
+
+          // Re-bind reply buttons for new replies
+          bindReplyButtons();
+          // Re-bind delete buttons for new replies
+          bindDeleteButtons();
+        });
+      });
+    </script>
+  </body>
+</html>
